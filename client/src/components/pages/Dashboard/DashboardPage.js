@@ -46,7 +46,7 @@ export default function DashboardPage({ setPage }) {
     const accessToken = useAuth(code)
 
     useEffect(() => {
-        setPage("Dashboard")
+        setPage("dashboard")
         // eslint-disable-next-line
         tokenFromCookie = cookies.get("token")
         if (tokenFromCookie !== undefined) {

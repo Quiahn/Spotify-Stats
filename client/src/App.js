@@ -21,7 +21,7 @@ let url = "https://accounts.spotify.com/authorize?response_type=code&client_id="
 const cookies = new Cookies()
 
 function App() {
-  const [page, setPage] = useState("home");
+  const [page, setPage] = useState("/");
 
   //Logout
   const logOutFunct = () => {
@@ -41,9 +41,9 @@ function App() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav" >
           <Nav className="mr-auto">
-            <Link className={(page === '/') ? "  nav-link active" : "nav-link"} to="/">Home</Link>
-            <Link className={(page === 'about') ? " active" : "nav-link"} to="/about">About</Link>
-            <Link className={(page === 'dashboard') ? " active" : "nav-link"} to="/dashboard">Dashboard</Link>
+            <Link onClick={() => { setPage("/") }} className={(page === '/') ? "  nav-link active" : "nav-link"} to="/">Home</Link>
+            <Link onClick={() => { setPage("about") }} className={(page === 'about') ? "nav-link active" : "nav-link"} to="/about">About</Link>
+            <Link onClick={() => { setPage("dashboard") }} className={(page === "dashboard") ? "nav-link active" : "nav-link"} to="/dashboard">Dashboard</Link>
           </Nav>
           <Nav>
             <ButtonGroup>

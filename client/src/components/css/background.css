@@ -1,5 +1,6 @@
 html body {
     background-color: rgb(25, 20, 20);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .custom-navbar-background {
@@ -21,10 +22,6 @@ html body {
 .scrolling-wrapper>div {
     display: inline-block;
     max-width: 250px;
-}
-
-.profileImg {
-    max-width: 200px;
 }
 
 .link-nodecor {
@@ -90,6 +87,10 @@ html body {
     font-size: 1.2rem;
 }
 
+.profileImg {
+    max-width: 250px;
+}
+
 @media only screen and (min-width: 600px) {
     ::-webkit-scrollbar {
         width: 8px;
@@ -107,12 +108,21 @@ html body {
     }
 }
 
+@media only screen and (max-width: 900px) {
+    .profileImg {
+        max-width: 200px;
+    }
+}
+
 @media only screen and (max-width: 800px) {
     .mobileDisable {
         display: none;
     }
     .pie-chart-container {
         max-width: 190px;
+    }
+    .profileImg {
+        max-width: 200px;
     }
 }
 
