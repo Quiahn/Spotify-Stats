@@ -43,5 +43,6 @@ export default function useAuth(code) {
         return () => clearTimeout(timeout);
 
     }, [refreshToken, expiresIn])
+
     return accessToken; //Only lastst  for 3600/60mins/1h
 }

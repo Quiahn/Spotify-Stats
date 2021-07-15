@@ -2,8 +2,8 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 //Components
-import RecentlyPlayed from './subPages/RecentlyPlayed';
-import AccountInfo from './subPages/AccountInfo';
+import RecentlyPlayed from './components/RecentlyPlayed';
+import AccountInfo from './components/AccountInfo';
 import TrackPage from '../TrackPage';
 import useAuth from "../../misc/auth/useAuth"
 //Modules

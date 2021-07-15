@@ -14,7 +14,7 @@ export default function AuthRedirect() {
 
     return (
         <div>
-            {(code) ? <Redirect to="/user" /> : <h1>code</h1>}
+            {(code) ? <Redirect to="/dashboard" /> : <h1>code</h1>}
         </div>
     )
 }

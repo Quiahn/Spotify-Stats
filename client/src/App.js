@@ -68,10 +68,6 @@ function App() {
           <Route path="/dashboard">
             <DashboardPage setPage={setPage}></DashboardPage>
           </Route>
-          {/* TODO: REMOVE THIS AND RESET REDIRECT URI TO DASHBOARD IN APP & SPOTIFY*/}
-          <Route path="/user">
-            <DashboardPage setPage={setPage}></DashboardPage>
-          </Route>
           <Route path="/about">
             <AboutPage></AboutPage>
           </Route>
