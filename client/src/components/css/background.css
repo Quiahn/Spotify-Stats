@@ -1,0 +1,136 @@
+html body {
+    background-color: rgb(25, 20, 20);
+}
+
+.custom-navbar-background {
+    background: #0f0f0f;
+    text-align: center;
+}
+
+.marginTopScroll {
+    padding-top: 4em;
+}
+
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding-top: 10px;
+}
+
+.scrolling-wrapper>div {
+    display: inline-block;
+    max-width: 250px;
+}
+
+.profileImg {
+    max-width: 200px;
+}
+
+.link-nodecor {
+    text-decoration: none;
+    color: white;
+}
+
+.link-nodecor:hover {
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+.customMaxWidthContainer {
+    max-width: 1400px;
+}
+
+.container-img-text-overlay {
+    position: relative;
+    text-align: end;
+    color: white;
+    border: 1px solid rgb(0, 0, 0);
+    margin-left: 5px;
+}
+
+.img-black-gradient-overlay {
+    mask-image: linear-gradient(180deg, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(180deg, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.top-right-txt-overlay {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    background-color: #1DB954;
+    padding: 4px;
+}
+
+.bottom-right-txt-overlay {
+    position: absolute;
+    bottom: 0px;
+    right: 16px;
+    word-wrap: break-word;
+    word-break: break-all;
+    padding: 4px;
+}
+
+.card-custom-class {
+    background: #282828;
+}
+
+.pie-chart-container {
+    max-width: 250px;
+}
+
+.lyrics-container {
+    max-height: 600px;
+    overflow-y: scroll;
+}
+
+.white-space-pre {
+    white-space: pre-wrap;
+    font-size: 1.2rem;
+}
+
+@media only screen and (min-width: 600px) {
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: #383838;
+        border-radius: 25px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #1DB954;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .mobileDisable {
+        display: none;
+    }
+    .pie-chart-container {
+        max-width: 190px;
+    }
+}
+
+@media only screen and (max-width: 770px) {
+    .mobileDisable {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 430px) {
+    .mobileDisable {
+        display: none;
+    }
+    .pie-chart-container {
+        max-width: 160px;
+    }
+    .white-space-pre {
+        white-space: pre-wrap;
+        font-size: 1rem;
+    }
+}
