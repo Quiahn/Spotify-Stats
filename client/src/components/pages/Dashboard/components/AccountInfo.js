@@ -15,7 +15,6 @@ export default function AccountInfo({ data }) {
         profileImage = DefaultProfileImage
     }
     if (data.hasOwnProperty("images") && data.images.length > 0) {
-        console.log(data.images);
         profileImage = data.images[0].url;
     }
     if (data.hasOwnProperty("explicit_content")) {

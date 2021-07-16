@@ -91,6 +91,17 @@ app.post('/refresh', (req, res) => {
     })
 });
 
+
+
+app.post('/refresh2', (req, res) => {
+    console.log('The access token has been refreshed! ' + new Date().getMinutes() + ':' + new Date().getSeconds());
+    res.json({
+        accessToken: "dfjksdlfjljdslj",
+        refreshToken: 3600
+    })
+
+});
+
 app.post('/lyrics', (req, res) => {
     let title = req.body.title
     let artist = req.body.artist
@@ -105,7 +116,3 @@ app.post('/lyrics', (req, res) => {
 })
 
 app.listen(3001)
-
-// clientIDs: process.env.CLIENT_ID,
-// clientSecret: process.env.CLIENT_SECRET,
-// redirectUri: process.env.REDIRECT_URI

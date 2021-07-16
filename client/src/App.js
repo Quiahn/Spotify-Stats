@@ -27,7 +27,9 @@ function App() {
   const logOutFunct = () => {
     cookies.remove("code");
     cookies.remove("token");
-    cookies.remove("signed");
+    cookies.remove("refresh");
+    cookies.remove("expires");
+    cookies.remove("started");
     localStorage.clear()
   }
 

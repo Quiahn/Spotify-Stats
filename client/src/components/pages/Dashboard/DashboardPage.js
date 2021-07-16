@@ -24,13 +24,8 @@ const cookies = new Cookies();
 
 export default function DashboardPage({ setPage }) {
 
-
     const [data, setData] = useState({})
     const [recents, setRecents] = useState({})
-
-    // The `path` lets us build <Route> paths that are
-    // relative to the parent route, while the `url` lets
-    // us build relative links.
     let { path } = useRouteMatch();
 
     //cookies
@@ -46,16 +41,12 @@ export default function DashboardPage({ setPage }) {
     const accessToken = useAuth(code)
 
     useEffect(() => {
-        setPage("dashboard")
-        // eslint-disable-next-line
-        tokenFromCookie = cookies.get("token")
-        if (tokenFromCookie !== undefined) {
-            spotifyApi.setAccessToken(tokenFromCookie);
+        if (cookies.get("token") !== undefined) {
+            spotifyApi.setAccessToken(cookies.get("token"));
             return;
         }
         if (!accessToken) return;
         spotifyApi.setAccessToken(accessToken);
-        cookies.set("token", accessToken)
 
     }, [accessToken])
 
