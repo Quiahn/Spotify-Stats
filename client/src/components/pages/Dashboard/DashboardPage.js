@@ -10,6 +10,7 @@ import useAuth from "../../misc/auth/useAuth"
 import SpotifyWebApi from 'spotify-web-api-node'
 import Cookies from 'universal-cookie';
 import { Switch, Route, useRouteMatch } from "react-router-dom";
+import axios from 'axios';
 //Style
 import { Row, Col, Nav, Button, ButtonGroup } from 'react-bootstrap';
 
@@ -26,18 +27,21 @@ export default function DashboardPage({ setPage }) {
 
     const [data, setData] = useState({})
     const [recents, setRecents] = useState({})
+    const [refreshToken, setRefreshToken] = useState()
+    const [started, setStarted] = useState()
+    const [expiresIn, setExpiresIn] = useState()
     let { path } = useRouteMatch();
 
     //cookies
     let code = cookies.get("code")
     let tokenFromCookie = cookies.get("token");
 
+
     //localStorage
     let usrDataFromLocal = localStorage.getItem("user")
     let usrRecentPlayed = localStorage.getItem("recent_played")
 
     if (tokenFromCookie !== undefined) code = undefined;
-
     const accessToken = useAuth(code)
 
     useEffect(() => {
@@ -78,6 +82,44 @@ export default function DashboardPage({ setPage }) {
 
     }, [accessToken, usrDataFromLocal, usrRecentPlayed])
 
+    //Refresh
+    useEffect(() => {
+        let refreshInter = null;
+        const waitForCookiesLoad = setTimeout(() => {
+            setExpiresIn(cookies.get("expires"))
+            setRefreshToken(cookies.get("refresh"))
+            setStarted(cookies.get("started"))
+            if (!(expiresIn && refreshToken && started)) return
+            let time = ((expiresIn - 60) - ((new Date().getSeconds() - (started)))) * 1000
+            console.log("Time in seconds: " + time / 1000)
+            time = (time < 1000) ? 1000 : time;
+            refreshInter = setInterval(() => {
+                axios.post(process.env.REACT_APP_SERVER_DOMAIN + '/refresh', {
+                    refreshToken,
+                }).then(res => {
+                    cookies.set("refresh", res.data.refreshToken);
+                    cookies.set('token', res.data.accessToken);
+                    cookies.set('started', new Date().getSeconds());
+                    clearInterval()
+                }).catch((e) => {
+                    cookies.remove("code");
+                    cookies.remove("token");
+                    cookies.remove("refresh");
+                    cookies.remove("expires");
+                    cookies.remove("started");
+                    localStorage.clear()
+                    window.location = '/'
+                    console.log("Refresh error: " + e);
+                })
+                console.log("Time in seconds: " + started)
+            }, time);
+        }, 1000);
+        return () => {
+            clearInterval(refreshInter)
+            clearTimeout(waitForCookiesLoad)
+        }
+    }, [refreshToken, expiresIn, started])
+
 
     return (
         <div className="">
@@ -105,7 +147,7 @@ export default function DashboardPage({ setPage }) {
                                 <h3>fsdf</h3>
                             </Route>
                             <Route path={`${path}/track/:trackId`}>
-                                <TrackPage />
+                                <TrackPage api={spotifyApi} />
                             </Route>
                         </Switch>
                     </div>

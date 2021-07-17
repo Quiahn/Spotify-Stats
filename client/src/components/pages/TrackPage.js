@@ -5,29 +5,21 @@ import { useEffect, useState } from 'react'
 import DonutChart from '../misc/visuals/DonutChart'
 import Card from '../misc/MiniCard';
 //Modules
-import SpotifyWebApi from 'spotify-web-api-node'
 import Cookies from 'universal-cookie';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 
 
-const cookies = new Cookies();
-const spotifyApi = new SpotifyWebApi({
-    clientId: process.env.REACT_APP_CLIENT_ID,
-})
+let cookies = new Cookies();
 
-export default function TrackPage() {
+export default function TrackPage({ api }) {
 
-    // The <Route> that rendered this component has a
-    // path of `/topics/:topicId`. The `:topicId` portion
-    // of the URL indicates a placeholder that we can
-    // get from `useParams()`.
+    let spotifyApi = api;
     let { trackId } = useParams();
     let defaultTrackId = trackId
     if (!trackId) defaultTrackId = '3Qm86XLflmIXVm1wcwkgDK'
 
-    const [cookie, setCookie] = useState(undefined)
     const [track, setTrack] = useState({})
     const [audioFeatures, setAudioFeatures] = useState({})
     const [lyrics, setLyrics] = useState('not found')
@@ -35,12 +27,15 @@ export default function TrackPage() {
     useEffect(() => {
         const abortCont = new AbortController();
 
-        setCookie(cookies.get("token"));
-        spotifyApi.setAccessToken(cookie)
-        if (!cookie) {
-            console.log("CODE 'leaf 1' : Failed to get cookie");
-            return
+        if (!spotifyApi._credentials.accessToken) {
+            if (cookies.get('token')) {
+                spotifyApi.setAccessToken(cookies.get('token'))
+            } else {
+                console.log("CODE 'leaf 1' : Failed to get cookie");
+                return
+            }
         };
+
         setTimeout(() => {
             spotifyApi.getTrack(defaultTrackId, { signal: abortCont }).then(res => {
                 setTrack(res.body);
@@ -56,7 +51,7 @@ export default function TrackPage() {
                 })
         }, 100);
         return () => abortCont.abort()
-    }, [cookie, setCookie, defaultTrackId])
+    }, [spotifyApi, defaultTrackId])
 
     useEffect(() => {
         if ([track.name, track.artists].includes(undefined)) return

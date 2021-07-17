@@ -71,6 +71,7 @@ app.post('/login', (req, res) => {
 
 //Refreshing the token when it expires, so the user doesn't have to keep logging in everytime the token expires.
 app.post('/refresh', (req, res) => {
+    console.log('The access token has been refreshed! ' + new Date().getMinutes() + ':' + new Date().getSeconds());
     const refreshToken = req.body.refreshToken;
     const spotifyApi = new SpotifyWebApi({
         redirectUri: redirectURI,
@@ -80,7 +81,6 @@ app.post('/refresh', (req, res) => {
     });
 
     spotifyApi.refreshAccessToken().then(data => {
-        console.log('The access token has been refreshed!');
         res.json({
             accessToken: data.body.access_token,
             refreshToken: data.body.refresh_token

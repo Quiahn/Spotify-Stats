@@ -49,7 +49,7 @@ function App() {
           </Nav>
           <Nav>
             <ButtonGroup>
-              <Button onClick={() => { setPage("dashboard"); window.location.href = url }} variant="success">Login</Button>
+              <Button onClick={() => { setPage("dashboard"); logOutFunct(); window.location.href = url }} variant="success">Login</Button>
               <Button onClick={() => { setPage("/"); logOutFunct(); window.location.href = "/"; }} variant="danger">Logout</Button>
             </ButtonGroup>
           </Nav>
