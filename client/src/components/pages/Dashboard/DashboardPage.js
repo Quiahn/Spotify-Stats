@@ -5,11 +5,12 @@ import { useEffect, useState } from 'react'
 import RecentlyPlayed from './components/RecentlyPlayed';
 import AccountInfo from './components/AccountInfo';
 import TrackPage from '../TrackPage';
+import SearchPage from '../SearchPage'
 import useAuth from "../../misc/auth/useAuth"
 //Modules
 import SpotifyWebApi from 'spotify-web-api-node'
 import Cookies from 'universal-cookie';
-import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { Switch, Route, useRouteMatch, Link } from "react-router-dom";
 import axios from 'axios';
 //Style
 import { Row, Col, Nav, Button, ButtonGroup } from 'react-bootstrap';
@@ -30,7 +31,7 @@ export default function DashboardPage({ setPage }) {
     const [refreshToken, setRefreshToken] = useState()
     const [started, setStarted] = useState()
     const [expiresIn, setExpiresIn] = useState()
-    let { path } = useRouteMatch();
+    let { path, url } = useRouteMatch();
 
     //cookies
     let code = cookies.get("code")
@@ -90,7 +91,7 @@ export default function DashboardPage({ setPage }) {
             setRefreshToken(cookies.get("refresh"))
             setStarted(cookies.get("started"))
             if (!(expiresIn && refreshToken && started)) return
-            let time = ((expiresIn - 60) - ((new Date().getSeconds() - (started)))) * 1000
+            let time = ((expiresIn - 1800) - ((new Date().getSeconds() - (started)))) * 1000
             console.log("Time in seconds: " + time / 1000)
             time = (time < 1000) ? 1000 : time;
             refreshInter = setInterval(() => {
@@ -124,17 +125,29 @@ export default function DashboardPage({ setPage }) {
     return (
         <div className="">
             <Row>
-                <Col xs={2} md={2} className="mobileDisable">
+                <Col xs={2} md={2} className="mobileDisable1">
 
                     <div className="sticky-top">
                         <Nav className="flex-column marginTopScroll">
-                            <ButtonGroup vertical>
-                                <Button variant="outline-secondary">Account</Button>
-                                <Button variant="outline-secondary">Account</Button>
-                                <Button variant="outline-secondary">Account</Button>
-                                <Button variant="outline-secondary">Account</Button>
-                                <Button variant="outline-secondary">Account</Button>
-                            </ButtonGroup>
+
+                            <Link className="text-secondary" to={`${url}`}>
+                                <p variant="outline-secondary">Dashboard</p>
+                            </Link>
+                            <Link className="text-secondary" to={`${url}/search`}>
+                                <p variant="outline-secondary">Search</p>
+                            </Link>
+                            <Link className="text-secondary" to={`${url}`}>
+                                <p variant="outline-secondary">Dashboard</p>
+                            </Link>
+                            <Link className="text-secondary" to={`${url}/search`}>
+                                <p variant="outline-secondary">Search</p>
+                            </Link>
+                            <Link className="text-secondary" to={`${url}`}>
+                                <p variant="outline-secondary">Dashboard</p>
+                            </Link>
+                            <Link className="text-secondary" to={`${url}/search`}>
+                                <p variant="outline-secondary">Search</p>
+                            </Link>
                         </Nav>
                     </div>
                 </Col>
@@ -142,11 +155,18 @@ export default function DashboardPage({ setPage }) {
                     <div className="main">
                         <Switch>
                             <Route path={`${path}/`} exact>
-                                <AccountInfo data={data} />
                                 <RecentlyPlayed recents={recents} />
-                                <h3>fsdf</h3>
+                                <RecentlyPlayed recents={recents} />
+                                <RecentlyPlayed recents={recents} />
                             </Route>
                             <Route path={`${path}/track/:trackId`}>
+                                <TrackPage api={spotifyApi} />
+
+                            </Route>
+                            <Route path={`${path}/search`} exact>
+                                <SearchPage api={spotifyApi} ></SearchPage>
+                            </Route>
+                            <Route path={`${path}/search/track/:trackId`}>
                                 <TrackPage api={spotifyApi} />
                             </Route>
                         </Switch>

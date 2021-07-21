@@ -1,6 +1,6 @@
 //React hooks/functions
 import React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 //Components
 import DonutChart from '../misc/visuals/DonutChart'
 import Card from '../misc/MiniCard';
@@ -23,6 +23,8 @@ export default function TrackPage({ api }) {
     const [track, setTrack] = useState({})
     const [audioFeatures, setAudioFeatures] = useState({})
     const [lyrics, setLyrics] = useState('not found')
+    const [rhymes, setRhymes] = useState('not found')
+    const memoizedLyrics = useMemo(() => highlightRhymes(lyrics, rhymes), [lyrics, rhymes])
 
     useEffect(() => {
         const abortCont = new AbortController();
@@ -36,20 +38,20 @@ export default function TrackPage({ api }) {
             }
         };
 
-        setTimeout(() => {
-            spotifyApi.getTrack(defaultTrackId, { signal: abortCont }).then(res => {
-                setTrack(res.body);
-                spotifyApi.getAudioFeaturesForTrack(res.body.id).then(response => {
-                    setAudioFeatures(response.body)
-                })
 
-            }, error => console.log(error))
-                .catch(err => {
-                    if (err.name === 'AbortError') {
-                        console.log("fetch abborded");
-                    }
-                })
-        }, 100);
+        spotifyApi.getTrack(defaultTrackId, { signal: abortCont }).then(res => {
+            setTrack(res.body);
+            spotifyApi.getAudioFeaturesForTrack(res.body.id).then(response => {
+                setAudioFeatures(response.body)
+            })
+
+        }, error => console.log(error))
+            .catch(err => {
+                if (err.name === 'AbortError') {
+                    console.log("fetch abborded");
+                }
+            })
+
         return () => abortCont.abort()
     }, [spotifyApi, defaultTrackId])
 
@@ -60,7 +62,8 @@ export default function TrackPage({ api }) {
             title: track.name,
             artist: track.artists[0].name
         }).then(res => {
-            setLyrics(res.data)
+            setLyrics(res.data.lyrics)
+            setRhymes(res.data.rhymes)
         }).catch((e) => {//redirect user to back to login page when token expires
             console.log("Login error: " + e);
         })
@@ -94,7 +97,7 @@ export default function TrackPage({ api }) {
             {(lyrics !== 'not found') ? <div>
                 <h2 className="text-center mt-2">Lyrics</h2>
                 <div className="lyrics-container  text-center m-auto">
-                    <p className="white-space-pre pt-4">{lyrics}</p>
+                    <div dangerouslySetInnerHTML={{ __html: memoizedLyrics }} />
                 </div>
             </div> : null}
 
@@ -125,6 +128,31 @@ function getKey(key, mode) {
     return NumberSys[key][mode]
 }
 
+function highlightRhymes(lyrics, rhymes) {
+    if (lyrics.lenght < 0 || lyrics === 'not found') return lyrics
+    if (rhymes.lenght < 0 || rhymes === 'not found') return lyrics
+
+    for (let i = 0; i < rhymes.length; i++) {
+        let rhyme = rhymes[i];
+        let color = Math.floor(Math.random() * 16777215).toString(16);
+        for (let j = 0; j < rhyme.length; j++) {
+            if (rhyme[j].length > 2) {
+                //console.log(String(lyrics).replaceAll(rhymes[j], ('Test')))
+                lyrics = replaceAlls(lyrics, " " + rhyme[j], ' <mark style="' + "background-color: #" + color + '"' + color + ">" + rhyme[j] + "</mark> ")
+
+                //lyrics = lyrics.split(rhyme[j]).join('<mark style="' + "background-color: #" + color + '"' + color + ">" + rhyme[j] + "</mark>")
+            }
+        }
+    }
+
+    lyrics = lyrics.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+    return lyrics
+}
+
+
+function replaceAlls(str, term, replacement) {
+    return str.replace(new RegExp((term), 'gi'), replacement);
+}
 
 function getDuration(s) {
     var ms = s % 1000;
@@ -132,8 +160,10 @@ function getDuration(s) {
     var secs = s % 60;
     s = (s - secs) / 60;
     var mins = s % 60;
-    return mins + ':' + secs;
+    return mins + ":" + secs.toString().padEnd(2, '0');
 }
+
+
 
 //Wait so spotify embed doesn't get ddosed
 //TODO: Make Recently Played dynamic

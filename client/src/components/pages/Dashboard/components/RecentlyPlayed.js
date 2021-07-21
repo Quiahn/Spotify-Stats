@@ -37,19 +37,3 @@ export default function RecentlyPlayed({ recents }) {
         </div>
     )
 }
-//<Typography variant="h4" > Recents </Typography>
-//parseInt(obj.played_at.replace(/[^0-9]/g, ""))
-
-/**
- *
- * <div key={i++}>
-                            <img
-                                className="d-block w-100"
-                                src={obj.track.album.images[0].url}
-                                alt={obj.track.id}
-                            />
-
-                            <h3>{obj.track.name}</h3>
-                            {obj.track.explicit && <p className="img-text-explicit">explicit</p>}
-                        </div>
- */

@@ -13,8 +13,11 @@ const express = require('express')
 const cors = require('cors');
 const lyricsFinder = require('lyrics-finder');
 const SpotifyWebApi = require('spotify-web-api-node');
-require('dotenv').config()
+const detectRyhmes = require("rhyme-detector");
 
+
+
+require('dotenv').config()
 
 //express
 const app = express()
@@ -111,7 +114,11 @@ app.post('/lyrics', (req, res) => {
     }
     (async function (artist, title) {
         let lyrics = await lyricsFinder(artist, title) || "not found";
-        res.send(lyrics)
+        let rhymes = detectRyhmes(lyrics);
+        res.send({
+            "lyrics": lyrics,
+            "rhymes": rhymes
+        })
     })(artist, title)
 })
 

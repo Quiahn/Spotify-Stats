@@ -10,8 +10,6 @@ import Auth from './components/misc/auth/AuthRedirect'
 import Cookies from 'universal-cookie'
 import { Switch, Route, BrowserRouter, Link } from "react-router-dom"
 //Styles
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './components/css/background.css'
 import { Button, Navbar, Nav, ButtonGroup, Container } from 'react-bootstrap';
 
 

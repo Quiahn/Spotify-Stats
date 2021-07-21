@@ -43,7 +43,6 @@ html body {
     position: relative;
     text-align: end;
     color: white;
-    border: 1px solid rgb(0, 0, 0);
     margin-left: 5px;
 }
 
@@ -55,6 +54,14 @@ html body {
 .top-right-txt-overlay {
     position: absolute;
     top: 8px;
+    right: 16px;
+    background-color: #1DB954;
+    padding: 4px;
+}
+
+.search-txt-overlay {
+    position: absolute;
+    bottom: 8px;
     right: 16px;
     background-color: #1DB954;
     padding: 4px;
@@ -78,8 +85,10 @@ html body {
 }
 
 .lyrics-container {
-    max-height: 600px;
+    height: 80vh;
+    max-height: 1000px;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .white-space-pre {
@@ -89,6 +98,77 @@ html body {
 
 .profileImg {
     max-width: 250px;
+}
+
+.css-search {
+    font-size: 2.5rem;
+    border-width: 1px;
+    border-color: rgba(25, 20, 20, 0);
+    background-color: rgba(25, 20, 20, 0);
+    border-bottom-color: #444444;
+    color: #1db954;
+    border-style: solid;
+    border-radius: 0px;
+}
+
+.css-search:focus {
+    outline: none;
+    border-bottom-color: #1db954;
+}
+
+.custom-progress-bar {
+    background-color: rgb(25, 20, 20) !important;
+    color: #1db954;
+}
+
+.custom-progress-bar .progress-bar {
+    background-color: #1db954;
+}
+
+.somethingtest {
+    background: #242424;
+}
+
+.animated-div {
+    animation: pulse 3s infinite;
+    animation-timing-function: linear;
+}
+
+.search-image {
+    max-width: 250px;
+    height: auto;
+}
+
+mark {
+    padding: 0;
+    margin: 0;
+}
+
+@keyframes pulse {
+    0% {
+        background-color: #191414;
+    }
+    15% {
+        background-color: #072713;
+    }
+    50% {
+        background-color: #191414;
+    }
+    75% {
+        background-color: #051b0d;
+    }
+    100% {
+        background-color: #191414;
+    }
+}
+
+@keyframes wave {
+    from {
+        transform: rotate(0deg);
+    }
+    from {
+        transform: rotate(360deg);
+    }
 }
 
 @media only screen and (min-width: 600px) {
@@ -115,7 +195,7 @@ html body {
 }
 
 @media only screen and (max-width: 800px) {
-    .mobileDisable {
+    .mobileDisable1 {
         display: none;
     }
     .pie-chart-container {
@@ -127,13 +207,16 @@ html body {
 }
 
 @media only screen and (max-width: 770px) {
-    .mobileDisable {
+    .mobileDisable2 {
         display: none;
+    }
+    .css-search {
+        font-size: 2.2rem;
     }
 }
 
-@media only screen and (max-width: 430px) {
-    .mobileDisable {
+@media only screen and (max-width: 500px) {
+    .mobileDisable3 {
         display: none;
     }
     .pie-chart-container {
@@ -143,4 +226,11 @@ html body {
         white-space: pre-wrap;
         font-size: 1rem;
     }
+    .css-search {
+        font-size: 2rem;
+    }
+}
+
+mark {
+    mix-blend-mode: screen;
 }

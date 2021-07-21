@@ -26,10 +26,7 @@ export default function AccountInfo({ data }) {
     return (
         <>
             <h3 className="my-4 text-center">{data.display_name}</h3>
-            <div className="row mx-auto my-3 align-items-center" >
-                <div className="col-sm-5 mx-auto text-center mb-3">
-                    <img className="profileImg rounded my-2" alt={"DefaultProfileImage"} src={profileImage} />
-                </div>
+            <div className="row mx-auto my-3 align-items-center justify-content-end" >
 
                 <div className="col-sm-7">
                     <dl className="row">
@@ -55,6 +52,10 @@ export default function AccountInfo({ data }) {
                         <dd className="col-sm-8">{(filter_locked) ? "Yes" : "No"}</dd>
                     </dl>
                 </div>
+                <div className="col-sm-5  float-right mb-3">
+                    <img className="profileImg rounded my-2 float-right" alt={"DefaultProfileImage"} src={profileImage} />
+                </div>
+
             </div>
         </>
     )

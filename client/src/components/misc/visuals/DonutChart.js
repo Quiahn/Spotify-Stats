@@ -31,7 +31,7 @@ export default function DonutChart({ chartTitle, chartValue }) {
                 totalValue={100}
                 rounded
                 label={({ x, y, dx, dy, dataEntry }) => {
-                    let title = percentage.chartValue + '';
+                    let title = percentage.chartValue + '%';
                     if (dataEntry.value === 0) {
                         y = y - 9
                         title = dataEntry.title
