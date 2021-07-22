@@ -25,6 +25,7 @@ export default function TrackPage({ api }) {
     const [lyrics, setLyrics] = useState('not found')
     const [rhymes, setRhymes] = useState('not found')
     const memoizedLyrics = useMemo(() => highlightRhymes(lyrics, rhymes), [lyrics, rhymes])
+    const [highLight, setHighlight] = useState(false)
 
     useEffect(() => {
         const abortCont = new AbortController();
@@ -94,12 +95,16 @@ export default function TrackPage({ api }) {
                 <DonutChart chartTitle={"Energy"} chartValue={(Math.round(audioFeatures.energy * 1000) / 10)} />
                 <DonutChart chartTitle={"Valence"} chartValue={(Math.round(audioFeatures.valence * 1000) / 10)} />
             </div>
-            {(lyrics !== 'not found') ? <div>
-                <h2 className="text-center mt-2">Lyrics</h2>
-                <div className="lyrics-container  text-center m-auto">
-                    <div dangerouslySetInnerHTML={{ __html: memoizedLyrics }} />
+            {(lyrics !== 'not found') ?
+
+                <div className="text-center mb-4">
+                    <h2 className=" mt-2">Lyrics</h2>
+                    <button className="btn btn-success my-4" onClick={() => setHighlight(prevHighlight => !prevHighlight)}>Toggle Highlight</button>
+                    <div className="lyrics-container  m-1">
+                        {(highLight) ? <div dangerouslySetInnerHTML={{ __html: memoizedLyrics }} /> : <div className="white-space-pre">{lyrics} </div>}
+                    </div>
                 </div>
-            </div> : null}
+                : <h5 className="text-center my-5">No Lyrics Found</h5>}
 
         </div >
     )
@@ -134,11 +139,11 @@ function highlightRhymes(lyrics, rhymes) {
 
     for (let i = 0; i < rhymes.length; i++) {
         let rhyme = rhymes[i];
-        let color = Math.floor(Math.random() * 16777215).toString(16);
+        let color = "hsl(" + Math.random() * 360 + ", 100%, 65%)";
         for (let j = 0; j < rhyme.length; j++) {
-            if (rhyme[j].length > 2) {
+            if (rhyme[j].length > 3) {
                 //console.log(String(lyrics).replaceAll(rhymes[j], ('Test')))
-                lyrics = replaceAlls(lyrics, " " + rhyme[j], ' <mark style="' + "background-color: #" + color + '"' + color + ">" + rhyme[j] + "</mark> ")
+                lyrics = replaceAlls(lyrics, " " + rhyme[j], ' <mark style="background-color:' + color + '"' + color + ">" + rhyme[j] + "</mark> ")
 
                 //lyrics = lyrics.split(rhyme[j]).join('<mark style="' + "background-color: #" + color + '"' + color + ">" + rhyme[j] + "</mark>")
             }
@@ -151,7 +156,7 @@ function highlightRhymes(lyrics, rhymes) {
 
 
 function replaceAlls(str, term, replacement) {
-    return str.replace(new RegExp((term), 'gi'), replacement);
+    return str.replace(new RegExp((term), 'g'), replacement);
 }
 
 function getDuration(s) {

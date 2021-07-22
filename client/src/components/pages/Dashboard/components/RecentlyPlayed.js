@@ -9,8 +9,12 @@ export default function RecentlyPlayed({ recents }) {
     let i = 1;
     if (recents === undefined) recents = {}
     return (
-        <div>
-            <h3>Recently Played:</h3>
+        <div className="mt-4">
+            <div className="d-flex justify-content-between align-items-baseline">
+                <h3>Recently Played:</h3>
+                <p className="link-nodecor" >See All</p>
+            </div>
+
             <div className="scrolling-wrapper">
                 {recents.items !== undefined && recents.items.map((obj) => {
                     return (
@@ -19,13 +23,10 @@ export default function RecentlyPlayed({ recents }) {
                             <Link to={`${url}/track/${obj.track.id}`} className="link-nodecor ">
 
                                 <img
-                                    className="w-100 p-1 img-black-gradient-overlay"
+                                    className="w-100 px-1 img-black-gradient-overlay"
                                     src={obj.track.album.images[0].url}
                                     alt={obj.track.id}
                                 />
-
-
-
                                 {(obj.track.explicit) ? <h6 className="top-right-txt-overlay">explicit</h6> : null}
                                 <h5 className="bottom-right-txt-overlay text-wrap">{obj.track.name}</h5>
                             </Link>

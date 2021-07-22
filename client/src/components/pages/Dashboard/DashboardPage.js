@@ -3,7 +3,6 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 //Components
 import RecentlyPlayed from './components/RecentlyPlayed';
-import AccountInfo from './components/AccountInfo';
 import TrackPage from '../TrackPage';
 import SearchPage from '../SearchPage'
 import useAuth from "../../misc/auth/useAuth"
@@ -13,7 +12,8 @@ import Cookies from 'universal-cookie';
 import { Switch, Route, useRouteMatch, Link } from "react-router-dom";
 import axios from 'axios';
 //Style
-import { Row, Col, Nav, Button, ButtonGroup } from 'react-bootstrap';
+import { Row, Col, Nav } from 'react-bootstrap';
+import CarouselTop from './components/CarouselTop';
 
 
 
@@ -28,6 +28,7 @@ export default function DashboardPage({ setPage }) {
 
     const [data, setData] = useState({})
     const [recents, setRecents] = useState({})
+    const [topArtist, setTopArtist] = useState({})
     const [refreshToken, setRefreshToken] = useState()
     const [started, setStarted] = useState()
     const [expiresIn, setExpiresIn] = useState()
@@ -41,6 +42,7 @@ export default function DashboardPage({ setPage }) {
     //localStorage
     let usrDataFromLocal = localStorage.getItem("user")
     let usrRecentPlayed = localStorage.getItem("recent_played")
+    let usrTopArtist = localStorage.getItem("top_artists")
 
     if (tokenFromCookie !== undefined) code = undefined;
     const accessToken = useAuth(code)
@@ -56,32 +58,48 @@ export default function DashboardPage({ setPage }) {
     }, [accessToken])
 
     useEffect(() => {
-        if (usrDataFromLocal !== null) {
+        if (usrDataFromLocal !== null && usrRecentPlayed !== null && usrTopArtist !== null) {
             setData(JSON.parse(usrDataFromLocal))
-            if (usrRecentPlayed !== null) {
-                setRecents(JSON.parse(usrRecentPlayed))
-            }
+            setRecents(JSON.parse(usrRecentPlayed))
+            setTopArtist(JSON.parse(usrTopArtist))
             return;
         } else {
             if (!accessToken) return;
+
+
             spotifyApi.getMe().then(res => {
                 localStorage.setItem("user", JSON.stringify(res.body))
                 setData(res.body)
+                console.log("asd");
+
+                //Get Recent Played
+                spotifyApi.getMyRecentlyPlayedTracks({
+                    limit: 20
+                }).then(function (res) {
+                    localStorage.setItem("recent_played", JSON.stringify(res.body))
+                    setRecents(res.body)
+                }, function (err) {
+                    console.log('Something went wrong!', err);
+                });
+
+                //Get User's Top Artist
+                spotifyApi.getMyTopArtists({
+                    limit: 10
+                }).then((res) => {
+                    localStorage.setItem("top_artists", JSON.stringify(res.body.items))
+                    setTopArtist(res.body.items)
+                }, (err) => {
+                    console.log(err);
+                })
+
             }, function (err) {
                 console.error(err);
             })
-            spotifyApi.getMyRecentlyPlayedTracks({
-                limit: 20
-            }).then(function (data) {
-                localStorage.setItem("recent_played", JSON.stringify(data.body))
-                setRecents(data.body)
-            }, function (err) {
-                console.log('Something went wrong!', err);
-            });
+
 
         }
 
-    }, [accessToken, usrDataFromLocal, usrRecentPlayed])
+    }, [accessToken, usrDataFromLocal, usrRecentPlayed, usrTopArtist])
 
     //Refresh
     useEffect(() => {
@@ -155,9 +173,10 @@ export default function DashboardPage({ setPage }) {
                     <div className="main">
                         <Switch>
                             <Route path={`${path}/`} exact>
+                                <CarouselTop topArtist={topArtist} />
                                 <RecentlyPlayed recents={recents} />
-                                <RecentlyPlayed recents={recents} />
-                                <RecentlyPlayed recents={recents} />
+
+
                             </Route>
                             <Route path={`${path}/track/:trackId`}>
                                 <TrackPage api={spotifyApi} />

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { ProgressBar } from 'react-bootstrap'
 import { Link, useRouteMatch } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import DonutChart from '../misc/visuals/DonutChart'
+
 
 let cookies = new Cookies();
 export default function Search({ api }) {
-    let { url, path } = useRouteMatch();
+    let { path } = useRouteMatch();
     let spotifyApi = api;
 
     const [term, setTerm] = useState("")

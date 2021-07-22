@@ -54,7 +54,7 @@ html body {
 .top-right-txt-overlay {
     position: absolute;
     top: 8px;
-    right: 16px;
+    right: 14px;
     background-color: #1DB954;
     padding: 4px;
 }
@@ -69,8 +69,8 @@ html body {
 
 .bottom-right-txt-overlay {
     position: absolute;
-    bottom: 0px;
-    right: 16px;
+    bottom: 6px;
+    right: 12px;
     word-wrap: break-word;
     word-break: break-all;
     padding: 4px;
@@ -142,6 +142,12 @@ html body {
 mark {
     padding: 0;
     margin: 0;
+    mix-blend-mode: screen;
+}
+
+.top-artist-div {
+    height: 400px;
+    background-color: #030303;
 }
 
 @keyframes pulse {
@@ -210,6 +216,9 @@ mark {
     .mobileDisable2 {
         display: none;
     }
+    .mobileEnable2 {
+        display: block;
+    }
     .css-search {
         font-size: 2.2rem;
     }
@@ -229,8 +238,7 @@ mark {
     .css-search {
         font-size: 2rem;
     }
-}
-
-mark {
-    mix-blend-mode: screen;
+    .top-artist-div {
+        height: 300px;
+    }
 }
