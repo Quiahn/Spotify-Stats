@@ -43,7 +43,7 @@ html body {
     position: relative;
     text-align: end;
     color: white;
-    margin-left: 5px;
+    margin-left: 1px;
 }
 
 .img-black-gradient-overlay {
@@ -148,17 +148,19 @@ mark {
 .top-artist-div {
     height: 400px;
     background-color: #030303;
-    background-size: 100% 100%;
-    -webkit-filter: blur(5px);
-    -moz-filter: blur(5px);
-    -o-filter: blur(5px);
-    -ms-filter: blur(5px);
-    filter: blur(5px);
+    background-size: 400px 400px;
+    -webkit-filter: blur(20px);
+    -moz-filter: blur(20px);
+    -o-filter: blur(20px);
+    -ms-filter: blur(20px);
+    filter: blur(20px);
 }
 
 .Absolute-Center {
     margin: auto;
     position: absolute;
+    height: 400px;
+    width: auto;
     top: 0;
     left: 0;
     bottom: 0;

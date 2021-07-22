@@ -18,8 +18,10 @@ export default function CarouselTop({ topArtist }) {
 
 
                 <Carousel.Caption >
-                    <h4>#{keyId}</h4>
-                    <h2>{artist.name}</h2>
+                    <h4 className="d-block text-white">#{keyId}</h4>
+                    <div className="mx-auto text-center text-dark" >
+                        <h2 className="d-inline bg-white">{artist.name}</h2>
+                    </div>
                     <p> Total Followes: {artist.followers.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
                     <button className="btn btn-outline-success btn-sm">About Artist</button>
                 </Carousel.Caption>
